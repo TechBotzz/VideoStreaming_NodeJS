@@ -22,10 +22,11 @@ var router = express.Router();
 var streamRoute = router.route('/stream');
 
 
-streamRoute.post(function(req, res) {
-    var paitentName = req.body.name;
+streamRoute.get(function(req, res) {
+    var paitentName = req.query.videoName;
     let files = fs.readdirSync(ABSPATH + "/" + paitentName);
     let sorted;
+	var path
     if (files.length > 1) {
         sorted = files.sort((a, b) => {
             let s1 = fs.statSync(ABSPATH + "/" + paitentName + "/" + a);
@@ -34,7 +35,13 @@ streamRoute.post(function(req, res) {
         });
     }
 
-    var path = ABSPATH + "/" + paitentName + "/" + sorted[0];
+	if (files.length == 1)
+	{
+		path = ABSPATH + "/" + paitentName + "/" + files;
+	}
+	else {
+		path = ABSPATH + "/" + paitentName + "/" + sorted[0];
+	}     
     //console.log("file name - " + path);
     const stat = fs.statSync(path);
     const fileSize = stat.size
@@ -58,7 +65,6 @@ streamRoute.post(function(req, res) {
             'Content-Length': chunksize,
             'Content-Type': 'video/mp4',
         }
-
         res.writeHead(206, head)
         file.pipe(res)
     } else {
