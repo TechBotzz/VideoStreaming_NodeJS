@@ -1,6 +1,8 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Sample application for streaming latest video file inside a specified folder using Node.js
+
+Steps for Installation and Starting application:
 
 1) Change the value of 'ABSPATH' constant to refer to footages folder (Eg.C:/videostream/footages)
 
